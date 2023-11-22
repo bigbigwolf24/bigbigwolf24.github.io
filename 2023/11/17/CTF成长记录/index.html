@@ -267,14 +267,65 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?url=ca\t /flllll\aaaaaaggggggg | tee a.txt</span><br></pre></td></tr></table></figure>
 
 <p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231121161246651.png" alt="image-20231121161246651"></p>
-<h1 id="SSRF注入"><a href="#SSRF注入" class="headerlink" title="SSRF注入"></a>SSRF注入</h1><h1 id="反序列化注入"><a href="#反序列化注入" class="headerlink" title="反序列化注入"></a>反序列化注入</h1><h1 id="xml注入"><a href="#xml注入" class="headerlink" title="xml注入"></a>xml注入</h1>
+<h1 id="SSRF注入"><a href="#SSRF注入" class="headerlink" title="SSRF注入"></a>SSRF注入</h1><h2 id="file过滤"><a href="#file过滤" class="headerlink" title="file过滤"></a>file过滤</h2><p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231122203030248.png" alt="image-20231122203030248"></p>
+<p>直接访问根目录下的flag文件：</p>
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231122203130518.png" alt="image-20231122203130518"></p>
+<p>发现没有，修改payload：</p>
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231122203157811.png" alt="image-20231122203157811"></p>
+<p>发现试着这玩意，才发自己写错了</p>
+<p>ssrf通过操作一台服务器，使其远程访问文件，请求头部应该是file</p>
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231122203343341.png" alt="image-20231122203343341"></p>
+<p>看见除了index.php，还有一个halxluxlu.php，访问：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node5.anna.nssctf.cn:28553/ha1x1ux1u.php</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231122203440832.png" alt="image-20231122203440832"></p>
+<p>分析代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">这段代码是一个 PHP 脚本，用于获取 GET 请求中的 file 参数，然后检查该参数中是否包含字符串 &quot;file&quot;。如果 file 参数包含这个字符串，stristr() 函数会返回匹配的子字符串，然后 die() 函数会输出消息 &quot;你败了.&quot; 并终止脚本的执行。</span><br><span class="line"></span><br><span class="line">这段代码的目的是防止用户在 file 参数中包含特定字符串来绕过一些安全检查或是直接访问文件系统中的敏感文件。通过检查是否存在 &quot;file&quot; 字符串，它试图阻止用户恶意访问。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stristr() 是 PHP 中的一个字符串处理函数，用于在字符串中进行不区分大小写的部分查找。该函数会在给定的字符串中查找另一个字符串，并返回第一个匹配项及其后的部分，不区分大小写。</span><br></pre></td></tr></table></figure>
+
+<p><strong>直接file&#x3D;&#x2F;flag出现的是一个假的flag</strong></p>
+<p>构造payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?file=php://filter/read=convert.base64-encode/resource=/flag</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">filter：</span><br><span class="line"></span><br><span class="line">filter 是 PHP 中用于过滤和验证数据的工具。它提供了一系列的过滤器，可以用来过滤输入的数据，比如从用户输入中获取的数据、从数据库中检索的数据等等。过滤器可以验证数据的合法性、清理输入、转换数据等，以确保数据的安全性和准确性。</span><br><span class="line">通过 filter_var() 或 filter_input() 函数，可以对变量进行过滤。例如，可以使用 FILTER_SANITIZE_EMAIL 过滤器来清理电子邮件地址，或者使用 FILTER_VALIDATE_INT 过滤器验证一个整数。</span><br><span class="line">filter 是用于处理输入数据，确保数据的有效性和安全性，以避免安全漏洞和错误。</span><br><span class="line">file：</span><br><span class="line"></span><br><span class="line">file 是 PHP 用于读取文件内容的函数。它可以读取文件中的内容并将其返回为数组，每一行作为数组的一个元素，或者作为字符串返回整个文件内容。</span><br><span class="line">file 函数的主要目的是读取文件内容，而不是用于数据过滤或验证。它通常用于读取文件中的文本内容，如读取日志文件、配置文件或其他文本文件。</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231122204151014.png" alt="image-20231122204151014"></p>
+<p>base64编码，进行解码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSSCTF&#123;cde420ec-b431-4236-b308-e1db75d73310&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="构造请求头部"><a href="#构造请求头部" class="headerlink" title="构造请求头部"></a>构造请求头部</h2><p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231122204746747.png" alt="image-20231122204746747"></p>
+<p>分析代码：</p>
+<p><code>fsockopen()</code> 函数建立与指定主机和端口的 socket 连接。然后，它将传入的 base64 编码的数据解码，并将数据写入到连接的 socket 中。</p>
+<p>fwrite将data写入当前会话<br> 可以构造一个请求头，读取服务器本地文件</p>
+<p>host地址为127.0.0.1，端口http的80端口，至于data，我们需要访问flag文件，所以一个访问flag文件的php代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$out = &quot;GET /flag.php HTTP/1.1\r\n&quot;;</span><br><span class="line">$out .= &quot;Host: 127.0.0.1\r\n&quot;;</span><br><span class="line">$out .= &quot;Connection: Close\r\n\r\n&quot;;</span><br><span class="line">echo base64_encode($out);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231122210340127.png" alt="image-20231122210340127"></p>
+<p>运行结果：</p>
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231122210721139.png" alt="image-20231122210721139"></p>
+<p>将运行结果当作data的值，构造payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?host=127.0.0.1&amp;port=80&amp;data=R0VUIC9mbGFnLnBocCBIVFRQLzEuMQ0KSG9zdDogMTI3LjAuMC4xDQpDb25uZWN0aW9uOiBDbG9zZQ0KDQo=</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231122210751740.png" alt="image-20231122210751740"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nssctf&#123;095948b9b2be-8444-3750-99ba94d3b4f5&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<h1 id="反序列化注入"><a href="#反序列化注入" class="headerlink" title="反序列化注入"></a>反序列化注入</h1><h1 id="xml注入"><a href="#xml注入" class="headerlink" title="xml注入"></a>xml注入</h1>
         
             <div id="toc-article">
                 
   <div class="widget-wrap" id="toc-wrap">
     <h3 class="widget-title"><i class="fa fa-toc"></i> 文章目录</h3>
     <div class="widget">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#sql%E6%B3%A8%E5%85%A5"><span class="toc-text">sql注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87%EF%BC%8Cand%E7%BB%95%E8%BF%87%EF%BC%8C%E7%AD%89%E5%8F%B7%E7%BB%95%E8%BF%87"><span class="toc-text">空格绕过，and绕过，等号绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%93%E5%90%8D%E6%9F%A5%E6%89%BEschema-name"><span class="toc-text">库名查找schema_name</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E5%9B%9E%E6%98%BE%E5%85%B3%E9%94%AE%E5%AD%97%E7%BB%95%E8%BF%87"><span class="toc-text">无回显关键字绕过</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RCE%E6%B3%A8%E5%85%A5"><span class="toc-text">RCE注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#get%E4%BC%A0%E5%8F%82"><span class="toc-text">get传参</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie%E4%BC%A0%E5%8F%82"><span class="toc-text">cookie传参</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E5%AD%97%E6%AF%8DRCE%E7%BB%95%E8%BF%87"><span class="toc-text">无字母RCE绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E5%9B%9E%E6%98%BERCE"><span class="toc-text">无回显RCE</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SSRF%E6%B3%A8%E5%85%A5"><span class="toc-text">SSRF注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%B3%A8%E5%85%A5"><span class="toc-text">反序列化注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#xml%E6%B3%A8%E5%85%A5"><span class="toc-text">xml注入</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#sql%E6%B3%A8%E5%85%A5"><span class="toc-text">sql注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87%EF%BC%8Cand%E7%BB%95%E8%BF%87%EF%BC%8C%E7%AD%89%E5%8F%B7%E7%BB%95%E8%BF%87"><span class="toc-text">空格绕过，and绕过，等号绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%93%E5%90%8D%E6%9F%A5%E6%89%BEschema-name"><span class="toc-text">库名查找schema_name</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E5%9B%9E%E6%98%BE%E5%85%B3%E9%94%AE%E5%AD%97%E7%BB%95%E8%BF%87"><span class="toc-text">无回显关键字绕过</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RCE%E6%B3%A8%E5%85%A5"><span class="toc-text">RCE注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#get%E4%BC%A0%E5%8F%82"><span class="toc-text">get传参</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie%E4%BC%A0%E5%8F%82"><span class="toc-text">cookie传参</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E5%AD%97%E6%AF%8DRCE%E7%BB%95%E8%BF%87"><span class="toc-text">无字母RCE绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E5%9B%9E%E6%98%BERCE"><span class="toc-text">无回显RCE</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SSRF%E6%B3%A8%E5%85%A5"><span class="toc-text">SSRF注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#file%E8%BF%87%E6%BB%A4"><span class="toc-text">file过滤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E8%AF%B7%E6%B1%82%E5%A4%B4%E9%83%A8"><span class="toc-text">构造请求头部</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%B3%A8%E5%85%A5"><span class="toc-text">反序列化注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#xml%E6%B3%A8%E5%85%A5"><span class="toc-text">xml注入</span></a></li></ol>
     </div>
   </div>
 
