@@ -192,6 +192,23 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?id=-1)))))) union select database(),group_concat(flag) from ctftraining.flag--+</span><br><span class="line">这里使用ctftraining.flag是因为，ctftraining并不是database（）默认的数据库名，所以要使用ctftraining.flag的形式指定flag表</span><br></pre></td></tr></table></figure>
 
 <p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231120154408849.png" alt="image-20231120154408849"></p>
+<h2 id="关键字绕过"><a href="#关键字绕过" class="headerlink" title="关键字绕过"></a>关键字绕过</h2><p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231122093005055.png" alt="image-20231122093005055"></p>
+<p>果断抓包：</p>
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231122093029845.png" alt="image-20231122093029845"></p>
+<p>发现base32，解密之后base5，再次解密：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from user where username = &#x27;$name&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>使用order by查询列数：</p>
+<p>发现order by被过滤，使用大小写：</p>
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231122093215780.png" alt="image-20231122093215780"></p>
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231122104848542.png" alt="image-20231122104848542"></p>
+<p><strong>联合查询所查询的数据不存在时，联合查询会构造一个虚拟的数据</strong></p>
+<p>本地复现：</p>
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231122104949374.png" alt="image-20231122104949374"></p>
+<p>name&#x3D;1’ union select 1,’admin’,’c4ca4238a0b923820dcc509a6f75849b’#&amp;pw&#x3D;1</p>
+<p> 其中’c4ca4238a0b923820dcc509a6f75849b’是1的md5加密值。</p>
+<p>字段一般都是id，name，password，如果不知道的话，可是将admin放在三个回显位的任意字段，如果出现wrong pass则证明没有错</p>
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231122105733397.png" alt="image-20231122105733397"></p>
 <h1 id="RCE注入"><a href="#RCE注入" class="headerlink" title="RCE注入"></a>RCE注入</h1><h2 id="get传参"><a href="#get传参" class="headerlink" title="get传参"></a>get传参</h2><p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231120155419424.png" alt="image-20231120155419424"></p>
 <p>传入的url参数，get方法接收，执行eval函数：</p>
 <p>使用system(‘ls &#x2F;‘);查看根目录文件：</p>
@@ -257,7 +274,7 @@
   <div class="widget-wrap" id="toc-wrap">
     <h3 class="widget-title"><i class="fa fa-toc"></i> 文章目录</h3>
     <div class="widget">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#sql%E6%B3%A8%E5%85%A5"><span class="toc-text">sql注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87%EF%BC%8Cand%E7%BB%95%E8%BF%87%EF%BC%8C%E7%AD%89%E5%8F%B7%E7%BB%95%E8%BF%87"><span class="toc-text">空格绕过，and绕过，等号绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%93%E5%90%8D%E6%9F%A5%E6%89%BEschema-name"><span class="toc-text">库名查找schema_name</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RCE%E6%B3%A8%E5%85%A5"><span class="toc-text">RCE注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#get%E4%BC%A0%E5%8F%82"><span class="toc-text">get传参</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie%E4%BC%A0%E5%8F%82"><span class="toc-text">cookie传参</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E5%AD%97%E6%AF%8DRCE%E7%BB%95%E8%BF%87"><span class="toc-text">无字母RCE绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E5%9B%9E%E6%98%BERCE"><span class="toc-text">无回显RCE</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SSRF%E6%B3%A8%E5%85%A5"><span class="toc-text">SSRF注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%B3%A8%E5%85%A5"><span class="toc-text">反序列化注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#xml%E6%B3%A8%E5%85%A5"><span class="toc-text">xml注入</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#sql%E6%B3%A8%E5%85%A5"><span class="toc-text">sql注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87%EF%BC%8Cand%E7%BB%95%E8%BF%87%EF%BC%8C%E7%AD%89%E5%8F%B7%E7%BB%95%E8%BF%87"><span class="toc-text">空格绕过，and绕过，等号绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%93%E5%90%8D%E6%9F%A5%E6%89%BEschema-name"><span class="toc-text">库名查找schema_name</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97%E7%BB%95%E8%BF%87"><span class="toc-text">关键字绕过</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RCE%E6%B3%A8%E5%85%A5"><span class="toc-text">RCE注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#get%E4%BC%A0%E5%8F%82"><span class="toc-text">get传参</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie%E4%BC%A0%E5%8F%82"><span class="toc-text">cookie传参</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E5%AD%97%E6%AF%8DRCE%E7%BB%95%E8%BF%87"><span class="toc-text">无字母RCE绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E5%9B%9E%E6%98%BERCE"><span class="toc-text">无回显RCE</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SSRF%E6%B3%A8%E5%85%A5"><span class="toc-text">SSRF注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%B3%A8%E5%85%A5"><span class="toc-text">反序列化注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#xml%E6%B3%A8%E5%85%A5"><span class="toc-text">xml注入</span></a></li></ol>
     </div>
   </div>
 
