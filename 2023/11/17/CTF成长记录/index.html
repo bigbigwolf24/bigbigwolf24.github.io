@@ -350,7 +350,7 @@
 <p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231123180420730.png" alt="image-20231123180420730"></p>
 <h2 id="读取源代码"><a href="#读取源代码" class="headerlink" title="读取源代码"></a>读取源代码</h2><p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231123181134887.png" alt="image-20231123181134887"></p>
 <p>这里是，file参数前六位是php:&#x2F;&#x2F;的话，就执行文件包含，那就不需要使用php:&#x2F;&#x2F;input进行post了，况且下面提示说flag就在&#x2F;flag当中，直接构造payload：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?file=php://filter/read=convert.base64-encode/resource=/flag</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?file=php://filter/read=convert.base64-encode/resource=/flag</span><br><span class="line">file=php://filter/read=convert.base64-encode/resource=flag.php</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231123181336694.png" alt="image-20231123181336694"></p>
 <p>进行解码：</p>
@@ -386,6 +386,11 @@
 <p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231123195644169.png" alt="image-20231123195644169"></p>
 <p>1没显示出来，查看网页源代码：</p>
 <p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231123195701492.png" alt="image-20231123195701492"></p>
+<h2 id="反引号"><a href="#反引号" class="headerlink" title="反引号"></a>反引号</h2><p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231123213810655.png" alt="image-20231123213810655"></p>
+<p>过滤了很多东西，但是没有过滤反引号：</p>
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231123213948505.png" alt="image-20231123213948505"></p>
+<p>查看flag</p>
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231123214148785.png" alt="image-20231123214148785"></p>
 <h2 id="综合"><a href="#综合" class="headerlink" title="综合"></a>综合</h2><p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231123200647447.png" alt="image-20231123200647447"></p>
 <p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231123200711693.png" alt="image-20231123200711693"></p>
 <p>　　 %0a 代替 换行 ， %09 代替 TAB键 （因为flag被过滤了，所以我们通过TAB来补全flag_is_here）</p>
@@ -479,14 +484,21 @@
 
 <p>回显：</p>
 <p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231123210253293.png" alt="image-20231123210253293"></p>
-<h1 id="反序列化注入"><a href="#反序列化注入" class="headerlink" title="反序列化注入"></a>反序列化注入</h1><h1 id="xml注入"><a href="#xml注入" class="headerlink" title="xml注入"></a>xml注入</h1>
+<h1 id="反序列化注入"><a href="#反序列化注入" class="headerlink" title="反序列化注入"></a>反序列化注入</h1><h2 id="简单序列化"><a href="#简单序列化" class="headerlink" title="简单序列化"></a>简单序列化</h2><p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231124092315300.png" alt="image-20231124092315300"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$a = $this-&gt;lt;</span><br><span class="line"></span><br><span class="line">$a($this-&gt;lly);</span><br><span class="line"></span><br><span class="line">这是这一题的注入点只要传参把$a变成system();$this-&gt;lly变成ls或者cat就是一个简单的命令注入了</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231124092941799.png" alt="image-20231124092941799"></p>
+<p>这里是post方式提交：</p>
+<p><img src="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/image-20231124093031633.png" alt="image-20231124093031633"></p>
+<p>注意要更改system命令内部的长度。</p>
+<h1 id="xml注入"><a href="#xml注入" class="headerlink" title="xml注入"></a>xml注入</h1>
         
             <div id="toc-article">
                 
   <div class="widget-wrap" id="toc-wrap">
     <h3 class="widget-title"><i class="fa fa-toc"></i> 文章目录</h3>
     <div class="widget">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#sql%E6%B3%A8%E5%85%A5"><span class="toc-text">sql注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87%EF%BC%8Cand%E7%BB%95%E8%BF%87%EF%BC%8C%E7%AD%89%E5%8F%B7%E7%BB%95%E8%BF%87"><span class="toc-text">空格绕过，and绕过，等号绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%93%E5%90%8D%E6%9F%A5%E6%89%BEschema-name"><span class="toc-text">库名查找schema_name</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E5%9B%9E%E6%98%BE%E5%85%B3%E9%94%AE%E5%AD%97%E7%BB%95%E8%BF%87"><span class="toc-text">无回显关键字绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="toc-text">报错注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8"><span class="toc-text">布尔盲注</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql%E7%BB%93%E6%9E%84"><span class="toc-text">mysql结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie%E6%B3%A8%E5%85%A5"><span class="toc-text">cookie注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UA%E6%B3%A8%E5%85%A5"><span class="toc-text">UA注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Refer%E6%B3%A8%E5%85%A5"><span class="toc-text">Refer注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4"><span class="toc-text">空格过滤</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RCE%E6%B3%A8%E5%85%A5"><span class="toc-text">RCE注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#get%E4%BC%A0%E5%8F%82"><span class="toc-text">get传参</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie%E4%BC%A0%E5%8F%82"><span class="toc-text">cookie传参</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E5%AD%97%E6%AF%8DRCE%E7%BB%95%E8%BF%87"><span class="toc-text">无字母RCE绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E5%9B%9E%E6%98%BERCE"><span class="toc-text">无回显RCE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ctfhub%E4%B8%AD%E7%9A%84rce"><span class="toc-text">ctfhub中的rce</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB"><span class="toc-text">文件包含</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php-input"><span class="toc-text">php:&#x2F;&#x2F;input</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96%E6%BA%90%E4%BB%A3%E7%A0%81"><span class="toc-text">读取源代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5"><span class="toc-text">命令注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E5%8C%85%E5%90%AB"><span class="toc-text">远程包含</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5-%E8%BF%87%E6%BB%A4%E7%9B%AE%E5%BD%95%E5%88%86%E9%9A%94%E7%AC%A6"><span class="toc-text">命令注入-过滤目录分隔符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%BC%E5%90%88"><span class="toc-text">综合</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SSRF%E6%B3%A8%E5%85%A5"><span class="toc-text">SSRF注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#file%E8%BF%87%E6%BB%A4"><span class="toc-text">file过滤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E8%AF%B7%E6%B1%82%E5%A4%B4%E9%83%A8"><span class="toc-text">构造请求头部</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%AA%E5%8D%8F%E8%AE%AE%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6"><span class="toc-text">伪协议读取文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#POST%E8%AF%B7%E6%B1%82"><span class="toc-text">POST请求</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%B3%A8%E5%85%A5"><span class="toc-text">反序列化注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#xml%E6%B3%A8%E5%85%A5"><span class="toc-text">xml注入</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#sql%E6%B3%A8%E5%85%A5"><span class="toc-text">sql注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87%EF%BC%8Cand%E7%BB%95%E8%BF%87%EF%BC%8C%E7%AD%89%E5%8F%B7%E7%BB%95%E8%BF%87"><span class="toc-text">空格绕过，and绕过，等号绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%93%E5%90%8D%E6%9F%A5%E6%89%BEschema-name"><span class="toc-text">库名查找schema_name</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E5%9B%9E%E6%98%BE%E5%85%B3%E9%94%AE%E5%AD%97%E7%BB%95%E8%BF%87"><span class="toc-text">无回显关键字绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="toc-text">报错注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8"><span class="toc-text">布尔盲注</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql%E7%BB%93%E6%9E%84"><span class="toc-text">mysql结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie%E6%B3%A8%E5%85%A5"><span class="toc-text">cookie注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UA%E6%B3%A8%E5%85%A5"><span class="toc-text">UA注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Refer%E6%B3%A8%E5%85%A5"><span class="toc-text">Refer注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4"><span class="toc-text">空格过滤</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RCE%E6%B3%A8%E5%85%A5"><span class="toc-text">RCE注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#get%E4%BC%A0%E5%8F%82"><span class="toc-text">get传参</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie%E4%BC%A0%E5%8F%82"><span class="toc-text">cookie传参</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E5%AD%97%E6%AF%8DRCE%E7%BB%95%E8%BF%87"><span class="toc-text">无字母RCE绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E5%9B%9E%E6%98%BERCE"><span class="toc-text">无回显RCE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ctfhub%E4%B8%AD%E7%9A%84rce"><span class="toc-text">ctfhub中的rce</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB"><span class="toc-text">文件包含</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php-input"><span class="toc-text">php:&#x2F;&#x2F;input</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96%E6%BA%90%E4%BB%A3%E7%A0%81"><span class="toc-text">读取源代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5"><span class="toc-text">命令注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E5%8C%85%E5%90%AB"><span class="toc-text">远程包含</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5-%E8%BF%87%E6%BB%A4%E7%9B%AE%E5%BD%95%E5%88%86%E9%9A%94%E7%AC%A6"><span class="toc-text">命令注入-过滤目录分隔符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%BC%95%E5%8F%B7"><span class="toc-text">反引号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%BC%E5%90%88"><span class="toc-text">综合</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SSRF%E6%B3%A8%E5%85%A5"><span class="toc-text">SSRF注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#file%E8%BF%87%E6%BB%A4"><span class="toc-text">file过滤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E8%AF%B7%E6%B1%82%E5%A4%B4%E9%83%A8"><span class="toc-text">构造请求头部</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%AA%E5%8D%8F%E8%AE%AE%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6"><span class="toc-text">伪协议读取文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#POST%E8%AF%B7%E6%B1%82"><span class="toc-text">POST请求</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%B3%A8%E5%85%A5"><span class="toc-text">反序列化注入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E5%BA%8F%E5%88%97%E5%8C%96"><span class="toc-text">简单序列化</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#xml%E6%B3%A8%E5%85%A5"><span class="toc-text">xml注入</span></a></li></ol>
     </div>
   </div>
 
@@ -530,6 +542,15 @@
     </a>
   
   
+    <a href="/2023/12/06/web-goat/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">newer</strong>
+      <div class="article-nav-title">
+        
+          web-goat
+        
+      </div>
+    </a>
+  
 </nav>
 
       
@@ -558,6 +579,14 @@
       <ul>
         
           <li>
+            <a href="/2023/12/26/catharsis/">catharsis</a>
+          </li>
+        
+          <li>
+            <a href="/2023/12/06/web-goat/">web-goat</a>
+          </li>
+        
+          <li>
             <a href="/2023/11/17/CTF%E6%88%90%E9%95%BF%E8%AE%B0%E5%BD%95/">CTF成长记录</a>
           </li>
         
@@ -567,14 +596,6 @@
         
           <li>
             <a href="/2023/11/16/Hacker-Kid/">Hacker Kid</a>
-          </li>
-        
-          <li>
-            <a href="/2023/11/14/Lab-6/">反序列化、XXE、暴力破解、逻辑漏洞</a>
-          </li>
-        
-          <li>
-            <a href="/2023/11/14/Billu%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">Billu渗透测试</a>
           </li>
         
       </ul>
@@ -592,7 +613,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-archive"></i> 归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">8</span></li></ul>
     </div>
   </div>
 
